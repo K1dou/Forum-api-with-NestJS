@@ -10,6 +10,7 @@ export class UserService {
   async createUser(data: Prisma.UserCreateInput) {
     return this.prismaService.user.create({ data });
   }
+
   async user(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
   ): Promise<User | null> {
