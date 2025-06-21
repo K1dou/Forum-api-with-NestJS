@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
       const payload = this.jwtService.verify(authorizarion, {
         secret: process.env.JWT_SECRET,
       });
-      request.user = payload;
+      request['sub'] = payload;
     } catch (error) {
       throw new UnauthorizedException('Invalid token');
     }
