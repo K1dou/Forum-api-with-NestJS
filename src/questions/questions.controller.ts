@@ -20,11 +20,11 @@ export class QuestionsController {
 
   @Post()
   @UseGuards(AuthGuard)
-  create(
-    @Body() createQuestionDto: CreateQuestionDto,
-    @Request() { req }: any,
-  ) {
-    return this.questionsService.create(createQuestionDto, req.sub);
+  create(@Body() createQuestionDto: CreateQuestionDto, @Request() req: any) {
+    return this.questionsService.create(
+      createQuestionDto,
+      Number(req.user.sub),
+    );
   }
 
   @Get()
