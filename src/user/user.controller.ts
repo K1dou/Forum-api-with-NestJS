@@ -12,6 +12,7 @@ import {
 import { UserService } from './user.service';
 import { Prisma, User as UserModel } from '@prisma/client';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { UserDTO } from './dto/userDTO';
 
 @Controller('user')
 export class UserController {
@@ -26,7 +27,7 @@ export class UserController {
 
   @UseGuards(AuthGuard)
   @Get(':id')
-  async getUser(@Param('id') id: string): Promise<UserModel | null> {
+  async getUser(@Param('id') id: string): Promise<UserDTO | null> {
     return this.userService.user({ id: Number(id) });
   }
 
@@ -35,7 +36,7 @@ export class UserController {
   async updateUser(
     @Body() userData: Prisma.UserUpdateInput,
     @Param('id') id: string,
-  ): Promise<UserModel> {
+  ): Promise<UserDTO> {
     return this.userService.updateUser({
       where: { id: Number(id) },
       data: userData,
@@ -44,7 +45,7 @@ export class UserController {
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async deleteUserById(@Param('id') id: string): Promise<UserModel> {
+  async deleteUserById(@Param('id') id: string): Promise<string> {
     return this.userService.deleteUser({ id: Number(id) });
   }
 }

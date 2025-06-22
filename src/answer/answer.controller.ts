@@ -25,7 +25,11 @@ export class AnswerController {
     @Request() req: any,
     @Param('questionId') questionId: string,
   ) {
-    return this.answerService.create(createAnswerDto, req.user.sub, questionId);
+    return this.answerService.create(
+      createAnswerDto,
+      Number(req.user.sub),
+      questionId,
+    );
   }
 
   @Get()

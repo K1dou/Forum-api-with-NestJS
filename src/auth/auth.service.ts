@@ -20,10 +20,11 @@ export class AuthService {
   async signin(
     params: Prisma.UserCreateInput,
   ): Promise<{ access_token: string }> {
-    const user = await this.userService.user({
-      email: params.email,
-    });
-    if (!user) throw new NotFoundException('User not found');
+    const user = await this.userService.findByEmail(params.email);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
 
     const passwordMatch = await bcrypt.compare(params.password, user.password);
 
@@ -33,6 +34,8 @@ export class AuthService {
 
     const payload = { sub: user.id };
 
-    return { access_token: await this.jwtService.signAsync(payload) };
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
   }
 }
