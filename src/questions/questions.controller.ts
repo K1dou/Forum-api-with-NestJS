@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  ValidationPipe,
 } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
@@ -20,7 +21,10 @@ export class QuestionsController {
 
   @Post()
   @UseGuards(AuthGuard)
-  create(@Body() createQuestionDto: CreateQuestionDto, @Request() req: any) {
+  create(
+    @Body(new ValidationPipe()) createQuestionDto: CreateQuestionDto,
+    @Request() req: any,
+  ) {
     return this.questionsService.create(
       createQuestionDto,
       Number(req.user.sub),
@@ -43,7 +47,7 @@ export class QuestionsController {
   @UseGuards(AuthGuard)
   update(
     @Param('id') id: string,
-    @Body() updateQuestionDto: UpdateQuestionDto,
+    @Body(new ValidationPipe()) updateQuestionDto: UpdateQuestionDto,
   ) {
     return this.questionsService.update(id, updateQuestionDto);
   }
