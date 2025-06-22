@@ -45,8 +45,9 @@ export class QuestionsService {
   }
 
   remove(id: string) {
-    return this.prisma.question.delete({
+    this.prisma.question.delete({
       where: { id },
     });
+    return { message: 'Question deleted successfully' };
   }
 }
